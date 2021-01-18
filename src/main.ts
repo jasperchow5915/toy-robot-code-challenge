@@ -1,7 +1,9 @@
 import * as readline from 'readline';
-import { CommandReaderService } from './service/CommandReaderService';
+import { CommandService } from './service/CommandService';
+import { TableTopView } from './view/TableTopView';
 
-const commandReaderService = new CommandReaderService();
+const tableTopView = new TableTopView();
+const commandService = new CommandService(tableTopView);
 
 const readLineInterface = readline.createInterface(
   process.stdin,
@@ -13,7 +15,7 @@ readLineInterface.prompt();
 
 readLineInterface
   .on('line', function (line) {
-    commandReaderService.processCommand(line);
+    commandService.processCommand(line);
   })
   .on('close', function () {
     console.log('Have a great day!');

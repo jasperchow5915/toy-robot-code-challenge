@@ -1,4 +1,4 @@
-import { Direction } from '../instance/Direction';
+import { Direction } from '../../instance/Direction';
 
 export interface IRobotPosition {
   xPosition: number;
