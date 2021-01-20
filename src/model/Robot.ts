@@ -1,5 +1,5 @@
 import { Direction } from '../instance/Direction';
 
 export class Robot {
-  direction: Direction;
+  constructor(private direction: Direction) {}
 }

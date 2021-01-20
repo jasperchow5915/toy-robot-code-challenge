@@ -1,9 +1,19 @@
 import * as readline from 'readline';
 import { CommandService } from './service/CommandService';
 import { TableTopView } from './view/TableTopView';
+import { CommandSanitisationService } from './service/CommandSanitisationService';
+import { CommandController } from './controller/CommandController';
+import { RobotService } from './service/RobotService';
 
 const tableTopView = new TableTopView();
-const commandService = new CommandService(tableTopView);
+const commandSanitisationService = new CommandSanitisationService();
+const robotService = new RobotService();
+const commandService = new CommandService(
+  tableTopView,
+  commandSanitisationService,
+  robotService,
+);
+const commandController = new CommandController(commandService);
 
 const readLineInterface = readline.createInterface(
   process.stdin,
@@ -15,7 +25,7 @@ readLineInterface.prompt();
 
 readLineInterface
   .on('line', function (line) {
-    commandService.processCommand(line);
+    commandController.processCommand(line);
   })
   .on('close', function () {
     console.log('Have a great day!');
