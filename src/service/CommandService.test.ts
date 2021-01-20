@@ -22,7 +22,6 @@ describe('CommandService', () => {
     mockRobotService = {
       createNewRobot: jest.fn(() => undefined),
     };
-    // mockRobot = {};
     underTest = new CommandService(
       mockConsoleLoggingView,
       mockCommandSanitisationService,

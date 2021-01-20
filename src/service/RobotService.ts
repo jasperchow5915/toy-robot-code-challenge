@@ -1,8 +1,14 @@
-import { Direction } from '../instance/Direction';
 import { Robot } from '../model/Robot';
+import { IRobotPosition } from '../model/interface/IRobotPosition';
 
 export class RobotService {
-  createNewRobot(direction: Direction) {
-    return new Robot(direction);
+  currentRobot: Robot;
+
+  getCurrentRobot(): Robot {
+    return this.currentRobot;
+  }
+
+  createNewRobot(robotPosition: IRobotPosition): void {
+    this.currentRobot = new Robot(robotPosition);
   }
 }

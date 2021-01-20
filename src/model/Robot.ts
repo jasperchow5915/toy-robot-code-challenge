@@ -1,5 +1,13 @@
-import { Direction } from '../instance/Direction';
+import { IRobotPosition } from './interface/IRobotPosition';
 
 export class Robot {
-  constructor(private direction: Direction) {}
+  constructor(private robotPosition: IRobotPosition) {}
+
+  getCurrentPosition(): IRobotPosition {
+    return this.robotPosition;
+  }
+
+  setCurrentPosition(position: IRobotPosition): void {
+    this.robotPosition = position;
+  }
 }

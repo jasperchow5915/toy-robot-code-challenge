@@ -25,7 +25,11 @@ readLineInterface.prompt();
 
 readLineInterface
   .on('line', function (line) {
-    commandController.processCommand(line);
+    try {
+      commandController.processCommand(line);
+    } catch (error) {
+      console.error(`Error: ${error.message}`);
+    }
   })
   .on('close', function () {
     console.log('Have a great day!');
