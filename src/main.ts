@@ -4,14 +4,19 @@ import { TableTopView } from './view/TableTopView';
 import { CommandSanitisationService } from './service/CommandSanitisationService';
 import { CommandController } from './controller/CommandController';
 import { RobotService } from './service/RobotService';
+import { BoundaryService } from './service/BoundaryService';
+import { LoggingService } from './service/LoggingService';
 
-const tableTopView = new TableTopView();
+const loggingService = new LoggingService();
+const tableTopView = new TableTopView(loggingService);
 const commandSanitisationService = new CommandSanitisationService();
 const robotService = new RobotService();
+const boundaryService = new BoundaryService();
 const commandService = new CommandService(
   tableTopView,
   commandSanitisationService,
   robotService,
+  boundaryService,
 );
 const commandController = new CommandController(commandService);
 
