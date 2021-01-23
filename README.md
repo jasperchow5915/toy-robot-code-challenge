@@ -23,9 +23,15 @@ This project is intended to be used with the latest Active LTS release of [Node.
 - `test` - run tests,
 - `test:watch` - interactive watch mode to automatically re-run tests
 
-## Additional Informations
+
+## Tests
+
+Unit tests can be found in the same directory as the corresponding class, 
+
+e.g. the test for src/service/BoundaryService.ts can be found in src/service/BoundaryService.test.ts
+
+Integration tests can be found in the directory __tests__/integration
 
 ## License
 
 Licensed under the APLv2. See the LICENSE file
-
