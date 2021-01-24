@@ -106,9 +106,6 @@ export class CommandService {
 
   getCommandToRun(input: string): Command {
     const inputSplitBySpace = input.split(' ');
-    if (inputSplitBySpace.length < 1) {
-      throw new Error(INVALID_COMMAND_ERROR_MESSAGE);
-    }
 
     const actualCommand = inputSplitBySpace[0];
 

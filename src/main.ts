@@ -34,7 +34,7 @@ readLineInterface
     try {
       commandController.processCommand(line);
     } catch (error) {
-      console.error(`Error: ${error.message}`);
+      loggingService.error(`Error: ${error.message}`);
     }
   })
   .on('close', function () {

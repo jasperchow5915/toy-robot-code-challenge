@@ -255,6 +255,13 @@ describe('CommandService', () => {
         new Error('Could not understand direction of robot position'),
       );
     });
+
+    it('should return undefined if we cannot tell how many parameters were passed in', () => {
+      const mockInput = 'PLACE 0,0,DON,helo';
+
+      const result = underTest.getRobotPositionFromCommandParameters(mockInput);
+      expect(result).toEqual(result);
+    });
   });
 
   describe('getCommandToRun', () => {
