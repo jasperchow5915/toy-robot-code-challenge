@@ -27,4 +27,17 @@ describe('MoveCommand', () => {
       direction: Direction.NORTH,
     });
   });
+
+  it('should not move forward if out of bounds', () => {
+    const mockRobot = new Robot({
+      xPosition: 0,
+      yPosition: -1,
+      direction: Direction.NORTH,
+    });
+    mockBoundaryService.checkPositionWithinBoundary.mockReturnValueOnce(false);
+
+    expect(() => {
+      underTest.executeCommand(mockRobot);
+    }).toThrowError(new Error('Invalid move, will go out of bounds'));
+  });
 });

@@ -35,4 +35,15 @@ describe('TableTopView.ts', () => {
       expect(mockLoggingService.log).toHaveBeenCalledWith(`3,4,SOUTH`);
     });
   });
+
+  describe('getBoardBoundaries', () => {
+    it('should return the correct board boundaries', () => {
+      expect(underTest.getBoardBoundaries()).toEqual({
+        minXPosition: 0,
+        maxXPosition: 4,
+        minYPosition: 0,
+        maxYPosition: 4,
+      });
+    });
+  });
 });

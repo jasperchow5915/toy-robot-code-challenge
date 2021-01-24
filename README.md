@@ -1,4 +1,6 @@
 # Toy Robot Code Challenge by Wilson Mun
+
+## Tech Stack
 - [TypeScript][typescript] [4.1][typescript-4-1]
 - [ESLint][eslint] with some initial rules recommendation
 - [Jest][jest] for fast unit testing and code coverage
@@ -8,11 +10,16 @@
 - Simple example of TypeScript code and unit test
 - .editorconfig for consistent file format
 
-🤲 Free as in speech: available under the APLv2 license.
-
 ## Getting Started
 
 This project is intended to be used with the latest Active LTS release of [Node.js][nodejs].
+
+## Starting the application
+To start this application, please run the following commands
+
+```
+npm run build && npm run start
+```
 
 ## Available Scripts
 
@@ -20,7 +27,7 @@ This project is intended to be used with the latest Active LTS release of [Node.
 - `build` - transpile TypeScript to ES6,
 - `build:watch` - interactive watch mode to automatically transpile source files,
 - `lint` - lint source files and tests,
-- `test` - run tests,
+- `test` - run unit tests,
 - `test:watch` - interactive watch mode to automatically re-run tests
 
 
@@ -30,7 +37,12 @@ Unit tests can be found in the same directory as the corresponding class,
 
 e.g. the test for src/service/BoundaryService.ts can be found in src/service/BoundaryService.test.ts
 
-Integration tests can be found in the directory __tests__/integration
+To run all tests, execute the command
+```
+npm run test
+```
+
+This will run all test and generate a test coverage report
 
 ## License
 

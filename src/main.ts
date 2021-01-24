@@ -17,6 +17,7 @@ const commandService = new CommandService(
   commandSanitisationService,
   robotService,
   boundaryService,
+  loggingService,
 );
 const commandController = new CommandController(commandService);
 
@@ -37,6 +38,5 @@ readLineInterface
     }
   })
   .on('close', function () {
-    console.log('Have a great day!');
     process.exit(0);
   });

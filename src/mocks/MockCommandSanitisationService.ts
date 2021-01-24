@@ -1,4 +1,4 @@
 export const mockCommandSanitisationService: any = {
-  sanitiseInput: jest.fn(() => undefined),
+  sanitiseInput: jest.fn(() => ''),
   removeAdditionalSpaces: jest.fn(() => ''),
 };

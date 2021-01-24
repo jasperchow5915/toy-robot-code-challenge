@@ -11,6 +11,7 @@ import { RightCommand } from './command/RightCommand';
 import { IRobotPosition } from '../model/interface/IRobotPosition';
 import { Direction } from '../instance/Direction';
 import { BoundaryService } from './BoundaryService';
+import { ILoggingService } from './command/interface/ILoggingService';
 
 export class CommandService {
   commandProcessorMap;
@@ -21,6 +22,7 @@ export class CommandService {
     private commandSanitisationService: CommandSanitisationService,
     private robotService: RobotService,
     boundaryService: BoundaryService,
+    private loggingService: ILoggingService,
   ) {
     this.placeCommand = new PlaceCommand(view, boundaryService, robotService);
     this.commandProcessorMap = {
@@ -38,6 +40,8 @@ export class CommandService {
       sanitisedInput,
     );
 
+    const currentRobot = this.robotService.getCurrentRobot();
+
     switch (commandToRun) {
       case Command.LEFT:
       case Command.MOVE:
@@ -45,21 +49,20 @@ export class CommandService {
       case Command.RIGHT:
         //discard command if not placed yet
         if (
-          this.robotService.getCurrentRobot() === undefined ||
-          this.robotService.getCurrentRobot().getCurrentPosition() === undefined
+          currentRobot === undefined ||
+          currentRobot.getCurrentPosition() === undefined
         ) {
+          this.loggingService.error(
+            'Place command has not been run yet, discarding command',
+          );
           break;
         }
-        this.commandProcessorMap[commandToRun].executeCommand(
-          this.robotService.getCurrentRobot(),
-        );
+        this.commandProcessorMap[commandToRun].executeCommand(currentRobot);
         break;
 
       case Command.PLACE:
         this.placeCommand.executeCommand(commandParameters);
         break;
-      default:
-        throw new Error('Not a known command');
     }
   }
 
