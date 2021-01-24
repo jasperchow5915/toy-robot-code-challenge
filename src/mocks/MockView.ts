@@ -8,4 +8,5 @@ export const mockView = {
       maxYPosition: 4,
     };
   }),
+  displayError: jest.fn(() => undefined),
 };

@@ -11,18 +11,16 @@ import { RightCommand } from './command/RightCommand';
 import { IRobotPosition } from '../model/interface/IRobotPosition';
 import { Direction } from '../instance/Direction';
 import { BoundaryService } from './BoundaryService';
-import { ILoggingService } from './command/interface/ILoggingService';
 
 export class CommandService {
   commandProcessorMap;
   placeCommand: PlaceCommand;
 
   constructor(
-    view: IView,
+    private view: IView,
     private commandSanitisationService: CommandSanitisationService,
     private robotService: RobotService,
     boundaryService: BoundaryService,
-    private loggingService: ILoggingService,
   ) {
     this.placeCommand = new PlaceCommand(view, boundaryService, robotService);
     this.commandProcessorMap = {
@@ -34,35 +32,40 @@ export class CommandService {
   }
 
   processCommand(input: string): void {
-    const sanitisedInput = this.commandSanitisationService.sanitiseInput(input);
-    const commandToRun = this.getCommandToRun(sanitisedInput);
-    const commandParameters = this.getRobotPositionFromCommandParameters(
-      sanitisedInput,
-    );
+    try {
+      const sanitisedInput = this.commandSanitisationService.sanitiseInput(
+        input,
+      );
+      const commandToRun = this.getCommandToRun(sanitisedInput);
+      const commandParameters = this.getRobotPositionFromCommandParameters(
+        sanitisedInput,
+      );
 
-    const currentRobot = this.robotService.getCurrentRobot();
+      const currentRobot = this.robotService.getCurrentRobot();
 
-    switch (commandToRun) {
-      case Command.LEFT:
-      case Command.MOVE:
-      case Command.REPORT:
-      case Command.RIGHT:
-        //discard command if not placed yet
-        if (
-          currentRobot === undefined ||
-          currentRobot.getCurrentPosition() === undefined
-        ) {
-          this.loggingService.error(
-            'Place command has not been run yet, discarding command',
-          );
+      switch (commandToRun) {
+        case Command.LEFT:
+        case Command.MOVE:
+        case Command.REPORT:
+        case Command.RIGHT:
+          //discard command if not placed yet
+          if (
+            currentRobot === undefined ||
+            currentRobot.getCurrentPosition() === undefined
+          ) {
+            throw new Error(
+              'Place command has not been run yet, discarding command',
+            );
+          }
+          this.commandProcessorMap[commandToRun].executeCommand(currentRobot);
           break;
-        }
-        this.commandProcessorMap[commandToRun].executeCommand(currentRobot);
-        break;
 
-      case Command.PLACE:
-        this.placeCommand.executeCommand(commandParameters);
-        break;
+        case Command.PLACE:
+          this.placeCommand.executeCommand(commandParameters);
+          break;
+      }
+    } catch (error) {
+      this.view.displayError(error);
     }
   }
 

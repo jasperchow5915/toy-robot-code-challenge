@@ -6,7 +6,6 @@ import { mockView } from '../mocks/MockView';
 import { mockBoundaryService } from '../mocks/MockBoundaryService';
 import { mockRobotService } from '../mocks/MockRobotService';
 import { mockCommandSanitisationService } from '../mocks/MockCommandSanitisationService';
-import { mockLoggingService } from '../mocks/MockLoggingService';
 import { Robot } from '../model/Robot';
 
 describe('CommandService', () => {
@@ -20,7 +19,6 @@ describe('CommandService', () => {
       mockCommandSanitisationService,
       mockRobotService,
       mockBoundaryService,
-      mockLoggingService,
     );
   });
 
@@ -45,21 +43,20 @@ describe('CommandService', () => {
       });
     });
 
-    it('should not call LeftCommand.executeCommand if a command place has not been first executed', () => {
+    it('should call displayError if a command place has not been first executed and input is left', () => {
       const mockInput = 'LEFT';
       mockCommandSanitisationService.sanitiseInput.mockReturnValueOnce(
         mockInput,
       );
       mockRobotService.getCurrentRobot.mockReturnValueOnce(undefined);
-      const leftCommandSpy = jest.spyOn(
-        underTest.commandProcessorMap[Command.LEFT],
-        'executeCommand',
-      );
       mockBoundaryService.checkPositionWithinBoundary.mockReturnValueOnce(true);
 
       underTest.processCommand(mockInput);
 
-      expect(leftCommandSpy).toHaveBeenCalledTimes(0);
+      expect(mockView.displayError).toHaveBeenCalledTimes(1);
+      expect(mockView.displayError).toHaveBeenCalledWith(
+        new Error('Place command has not been run yet, discarding command'),
+      );
     });
 
     it('should call LeftCommand.executeCommand if a command place has already been executed', () => {
@@ -85,21 +82,20 @@ describe('CommandService', () => {
       expect(leftCommandSpy).toHaveBeenCalledWith(mockRobot);
     });
 
-    it('should not call RightCommand.executeCommand if a command place has not been first executed', () => {
+    it('should call displayError if a command place has not been first executed and input is right', () => {
       const mockInput = 'RIGHT';
       mockCommandSanitisationService.sanitiseInput.mockReturnValueOnce(
         mockInput,
       );
       mockRobotService.getCurrentRobot.mockReturnValueOnce(undefined);
-      const rightCommandSpy = jest.spyOn(
-        underTest.commandProcessorMap[Command.RIGHT],
-        'executeCommand',
-      );
       mockBoundaryService.checkPositionWithinBoundary.mockReturnValueOnce(true);
 
       underTest.processCommand(mockInput);
 
-      expect(rightCommandSpy).toHaveBeenCalledTimes(0);
+      expect(mockView.displayError).toHaveBeenCalledTimes(1);
+      expect(mockView.displayError).toHaveBeenCalledWith(
+        new Error('Place command has not been run yet, discarding command'),
+      );
     });
 
     it('should call RightCommand.executeCommand if a command place has already been executed', () => {
@@ -125,21 +121,20 @@ describe('CommandService', () => {
       expect(rightCommandSpy).toHaveBeenCalledWith(mockRobot);
     });
 
-    it('should not call MoveCommand.executeCommand if a command place has not been first executed', () => {
+    it('should call displayError if a command place has not been first executed and input is move', () => {
       const mockInput = 'MOVE';
       mockCommandSanitisationService.sanitiseInput.mockReturnValueOnce(
         mockInput,
       );
       mockRobotService.getCurrentRobot.mockReturnValueOnce(undefined);
-      const moveCommandSpy = jest.spyOn(
-        underTest.commandProcessorMap[Command.MOVE],
-        'executeCommand',
-      );
       mockBoundaryService.checkPositionWithinBoundary.mockReturnValueOnce(true);
 
       underTest.processCommand(mockInput);
 
-      expect(moveCommandSpy).toHaveBeenCalledTimes(0);
+      expect(mockView.displayError).toHaveBeenCalledTimes(1);
+      expect(mockView.displayError).toHaveBeenCalledWith(
+        new Error('Place command has not been run yet, discarding command'),
+      );
     });
 
     it('should call MoveCommand.executeCommand if a command place has already been executed', () => {
@@ -165,21 +160,20 @@ describe('CommandService', () => {
       expect(moveCommandSpy).toHaveBeenCalledWith(mockRobot);
     });
 
-    it('should not call ReportCommand.executeCommand if a command place has not been first executed', () => {
+    it('should call displayError if a command place has not been first executed and input is report', () => {
       const mockInput = 'REPORT';
       mockCommandSanitisationService.sanitiseInput.mockReturnValueOnce(
         mockInput,
       );
       mockRobotService.getCurrentRobot.mockReturnValueOnce(undefined);
-      const reportCommandSpy = jest.spyOn(
-        underTest.commandProcessorMap[Command.REPORT],
-        'executeCommand',
-      );
       mockBoundaryService.checkPositionWithinBoundary.mockReturnValueOnce(true);
 
       underTest.processCommand(mockInput);
 
-      expect(reportCommandSpy).toHaveBeenCalledTimes(0);
+      expect(mockView.displayError).toHaveBeenCalledTimes(1);
+      expect(mockView.displayError).toHaveBeenCalledWith(
+        new Error('Place command has not been run yet, discarding command'),
+      );
     });
 
     it('should call ReportCommand.executeCommand if a command place has already been executed', () => {
@@ -205,15 +199,17 @@ describe('CommandService', () => {
       expect(reportCommandSpy).toHaveBeenCalledWith(mockRobot);
     });
 
-    it('should throw an error if an unknown command was passed', () => {
+    it('should displayError if an unknown command was passed', () => {
       const mockInput = 'unknown command';
       mockCommandSanitisationService.sanitiseInput.mockReturnValueOnce(
         mockInput,
       );
 
-      expect(() => {
-        underTest.processCommand(mockInput);
-      }).toThrowError(new Error('Could not find valid command'));
+      underTest.processCommand(mockInput);
+
+      expect(mockView.displayError).toHaveBeenCalledWith(
+        new Error('Could not find valid command'),
+      );
     });
   });
 

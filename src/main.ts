@@ -17,25 +17,22 @@ const commandService = new CommandService(
   commandSanitisationService,
   robotService,
   boundaryService,
-  loggingService,
 );
 const commandController = new CommandController(commandService);
 
-const readLineInterface = readline.createInterface(
-  process.stdin,
-  process.stdout,
-);
+const readLineInterface = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-readLineInterface.setPrompt('Welcome to the toy robot application\n');
+readLineInterface.setPrompt('Enter a command\n');
 readLineInterface.prompt();
+// https://github.com/nodejs/node/issues/12606
+readLineInterface.setPrompt('');
 
 readLineInterface
   .on('line', function (line) {
-    try {
-      commandController.processCommand(line);
-    } catch (error) {
-      loggingService.error(`Error: ${error.message}`);
-    }
+    commandController.processCommand(line);
   })
   .on('close', function () {
     process.exit(0);

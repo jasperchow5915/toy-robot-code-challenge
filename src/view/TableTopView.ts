@@ -20,4 +20,8 @@ export class TableTopView implements IView {
       maxYPosition: 4,
     };
   }
+
+  displayError(error: Error): void {
+    this.loggingService.error(`Error: ${error.message}`);
+  }
 }
