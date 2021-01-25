@@ -47,3 +47,6 @@ This will run all test and generate a test coverage report
 ## License
 
 Licensed under the APLv2. See the LICENSE file
+
+## Credits
+Initial fork/boilerplate code taken from https://github.com/jsynowiec/node-typescript-boilerplate

@@ -46,4 +46,15 @@ describe('TableTopView.ts', () => {
       });
     });
   });
+
+  describe('displayError', () => {
+    it('should call loggingService displayError', () => {
+      const mockError = new Error('test error');
+      underTest.displayError(mockError);
+
+      expect(mockLoggingService.error).toHaveBeenCalledWith(
+        'Error: test error',
+      );
+    });
+  });
 });
